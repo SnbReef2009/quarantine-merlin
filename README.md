@@ -33,12 +33,12 @@ Developed and tested on an RT-AX88U with Asuswrt-Merlin 3004.388.13_alpha1. It m
 
 ## Install
 
-### Option 1: direct from GitHub (one command)
+### Option 1: direct from the GitHub release (one command)
 
 Run this over SSH on the router. It downloads the installer, verifies its SHA256 checksum and only runs it when the checksum matches:
 
 ```
-[ -w /tmp/mnt/sda1 ] || echo "NO WRITE PERMISSION on /tmp/mnt/sda1"; /usr/sbin/curl -fsSL -o /tmp/mnt/sda1/quarantine-setup-0.18.sh https://raw.githubusercontent.com/SnbReef2009/quarantine-merlin/main/quarantine-setup-0.18.sh && [ "$(/usr/sbin/openssl dgst -sha256 /tmp/mnt/sda1/quarantine-setup-0.18.sh | awk '{print $NF}')" = "056faa3ec8f49128b274358304da303777be1f033b99260f022f81d766b391a9" ] && sh /tmp/mnt/sda1/quarantine-setup-0.18.sh || echo "DOWNLOAD OR CHECKSUM FAILED - script not run"
+[ -w /tmp/mnt/sda1 ] || echo "NO WRITE PERMISSION on /tmp/mnt/sda1"; /usr/sbin/curl -fsSL -o /tmp/mnt/sda1/quarantine-setup-0.18.sh https://github.com/SnbReef2009/quarantine-merlin/releases/download/v0.18/quarantine-setup-0.18.sh && [ "$(/usr/sbin/openssl dgst -sha256 /tmp/mnt/sda1/quarantine-setup-0.18.sh | awk '{print $NF}')" = "056faa3ec8f49128b274358304da303777be1f033b99260f022f81d766b391a9" ] && sh /tmp/mnt/sda1/quarantine-setup-0.18.sh || echo "DOWNLOAD OR CHECKSUM FAILED - script not run"
 ```
 
 The checksum is part of the command, so a corrupted or modified download is never executed. Note that the checksum lives in this repository too: it protects against a damaged download, not against a compromised repository. If you want to be sure, read the script first (it is a plain shell script).
