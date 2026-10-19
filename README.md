@@ -24,6 +24,13 @@ Developed and tested on an RT-AX88U with Asuswrt-Merlin 3004.388.13_alpha1. It m
 - Optional mail notification for new devices (uses your existing amtm mail setup, see below)
 - Built-in diagnostics and self-test, debug log, install with backup and automatic rollback
 
+## Gateway, subnet and DNS
+
+- **Quarantine subnet:** by default the third octet of your LAN plus 1 (LAN `192.168.1.x` gives `192.168.2.x`). You can change it in the GUI; it must be a private /24 that does not overlap with any other network on the router.
+- **Gateway address:** while the quarantine is on, the router gets one extra address on the LAN bridge: `.1` of the quarantine subnet (for example `192.168.2.1/24`). dnsmasq hands that address out as the router/gateway to quarantined devices. Quarantined devices get `.100` to `.200` with a 1 hour lease. The extra address is removed again by the uninstaller.
+- **DNS server:** quarantined devices receive a public DNS server, default `9.9.9.9`. You can change it in the GUI; an invalid address is rejected and the old value stays.
+- **Gateway field in the GUI:** this is always **WAN** for now: quarantined devices reach the internet through your normal internet connection. Routing them through a VPN client is not implemented yet; any other value is ignored and stays WAN.
+
 ## Requirements
 
 - Asuswrt-Merlin with JFFS custom scripts enabled, SSH access, a USB disk mounted at `/tmp/mnt/sda1`
