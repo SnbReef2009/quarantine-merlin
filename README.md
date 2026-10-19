@@ -21,7 +21,7 @@ Developed and tested on an RT-AX88U with Asuswrt-Merlin 3004.388.13_alpha1. It m
   - **Custom** - Extended + your own ports (up to 20, `443, 8883, 123/udp`)
   - **Open** - no port restriction (private ranges and the router stay blocked)
 - Trust / Block / Unblock per device; blocked devices are listed separately and survive Clear
-- Optional mail notification for new devices (uses your existing amtm mail setup, see below)
+- Optional mail notification when an unknown device shows up in the quarantine (uses your existing amtm mail setup, see below). You get a mail within a couple of minutes of the first connection, and a repeat at most every 6 hours per device for as long as it stays in the quarantine
 - Built-in diagnostics and self-test, debug log, install with backup and automatic rollback
 
 ## Gateway, subnet and DNS
@@ -80,6 +80,8 @@ Not removed: DHCP reservations (they are ordinary reservations you may want to k
 ## Mail notifications and credentials
 
 Quarantine has **no mail credentials of its own**. When notifications are on, it reads the SMTP settings and the encrypted password from your existing amtm mail setup (`/jffs/addons/amtm/mail/`) and decrypts it the same way amtm does, at the moment a mail is sent. Nothing is stored or created by this add-on. If amtm mail is not configured, notifications simply stay off and the diagnostics say so.
+
+How often you get mail: the router checks every 2 minutes. A quarantined device triggers a mail with its MAC address, IP address and hostname; the same device is mentioned again at most once per 6 hours while it still has a lease in the quarantine subnet. Blocked devices do not trigger mails, and nothing is sent while the quarantine is switched off. If sending fails, it is retried on the next check. The 6 hour interval is fixed for now.
 
 ## Command line
 
